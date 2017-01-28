@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
+
+void print_status(long long int l, long long int r, int n){
+int step = n;
+int cur = ((double)l/(double)r)*step;
+printf("\r{");
+int i;
+char ch = '|', head = '>';
+for(i=1;i<cur;i++) putchar(ch);
+if(i==step) putchar(ch); else putchar(head);
+for(i=cur+1;i<=step;i++) putchar(' ');
+putchar('}');fflush(stdout);
+printf("Wait...%lld/%lld",l,r);
+}
+
+int main(int argc, char *argv[]){
+FILE *fp = fopen("../ram","w");
+if(fp == NULL){printf("fopen error..\n"); exit(1);}
+else printf("no problem in opening in read mode..\n");
+fwrite("Hi I am ram RAM, the great Mr. perfect...",sizeof("Hi I am ram RAM, the great Mr. perfect..."),1,fp);
+fclose(fp);
+
+printf("this is staus...\n");
+int i;
+for(i=1;i<=300;i++){
+	print_status(i,300,atoi(argv[1]));
+	usleep(1000);
+}
+printf("\nDONE\n");
+
+char str[3];
+str[0] = 'a';
+str[1] = 'b';
+str[2] = 'c';
+str[3] = '\0';
+//str[2] = 'c';
+printf("%s\n",str);
+printf("%d -- %d\n",(int)sizeof(str),(int)strlen(str));
+return 0;
+}
