@@ -33,7 +33,7 @@ void print_status(long long int l, long long int r, int n){
 	int cur = ((double)l/(double)r)*step;
 	printf("\r{");
 	int i;
-	char ch = '|', head = '>';
+	char ch = '=', head = '>';
 	for(i=1;i<cur;i++) putchar(ch);
 	if(i==step) putchar(ch); else putchar(head);
 	for(i=cur+1;i<=step;i++) putchar(' ');
@@ -65,9 +65,7 @@ int main(int argc, char *argv[]){
 	while(1){
 		printf("ftp:>");fflush(stdout);
 		bzero(str,sizeof(str));
-		printf("str set to zero\n");
 		get_line(str);
-		printf("command : %s \n",str);
 		if(!strncmp(str,"ls",2)){
 			strcpy(d1.function,str);
 			if(write(sockfd,(void*)&d1,sizeof(d1))<0){printf("Server disconnected... exiting..\n"); exit(1);}
