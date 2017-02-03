@@ -10,7 +10,3 @@ gen_check_sum.o: gen_check_sum.c gen_check_sum.h
 	cc -c gen_check_sum.c
 clean: 
 	rm *.o server client
-
-
-
-
