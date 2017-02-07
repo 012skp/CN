@@ -26,8 +26,6 @@ void detect_error(char str[], char gen_pol[],char msg[]){
 
 	}
 
-
-
 }
 
 

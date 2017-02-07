@@ -1,6 +1,5 @@
 #include "my_socket.h"
 
-
 int host_server(int portno){
 	
 	int sockfd;
