@@ -3,6 +3,9 @@
 #include "gen_crc_bits.c"
 using namespace std;
 
+
+
+
 int main(int argc, char* argv[]){
 	if(argc < 3){printf("usage %s <ip> <portno>\n",argv[0]); exit(1);}
 	int sockfd = connect_server(argv[1],atoi(argv[2]));

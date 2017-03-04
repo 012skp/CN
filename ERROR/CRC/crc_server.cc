@@ -29,6 +29,9 @@ void detect_error(char str[], char gen_pol[],char msg[]){
 }
 
 
+
+
+
 int main(int argc, char* argv[]){
 	if(argc < 2){printf("usage %s <ip>\n",argv[0]); exit(1);}
 	int sockfd = host_server(atoi(argv[1]));
