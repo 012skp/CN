@@ -4,6 +4,7 @@
 #include<arpa/inet.h>
 #include<sys/socket.h>
 #include<signal.h>
+#include<unistd.h>
 #define HELP printf("\nCommands available: getlist,disconnect,name_<name>,send_<cli_id>,help");
 
 void scanstr(char str[]){

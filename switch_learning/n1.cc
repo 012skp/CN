@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include "my_socket.h"
-
+#include <sys/prctl.h>
 using namespace std;
 struct frame{
   int src_addr;
@@ -27,6 +27,7 @@ int main(int argc, char* argv[]){
 
   int pid = fork();
   if(pid == 0){
+    prctl(PR_SET_PDEATHSIG, SIGHUP);
     while(1){
       printf("enter destination MAC addr to send msg:"); fflush(stdout);
       int m;
@@ -38,7 +39,7 @@ int main(int argc, char* argv[]){
   }
   else{
     while(1){
-      if(read(sockfd,(frame*)&f,sizeof(frame)) < 0){
+      if( read(sockfd,(frame*)&f,sizeof(frame)) <= 0){
         printf("Problem in Switch....!!!\n");
         kill(pid,9);
         exit(1);

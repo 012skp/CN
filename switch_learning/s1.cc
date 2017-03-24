@@ -37,15 +37,25 @@ void* thread_work(void * arg){
   int newsockfd = table[free_port].sock_fd;
   while(1){
     frame f;
-    if(read(newsockfd,(frame*)&f,sizeof(frame)) < 0){
+    if(read(newsockfd,(frame*)&f,sizeof(frame)) <= 0){
       //Node disconnect...
+      //printf("Node disconnect from interface %d\n",free_port);
+      LOCK;
       table[free_port].connected = 0;
       table[free_port].mac_addr = -1;
+      UNLOCK;
       print_switch_table();
       return NULL;
     }
     //If mac_addr for this is not updated...
-    if(table[free_port].mac_addr == -1){ table[free_port].mac_addr = f.src_addr; print_switch_table();}
+    if(table[free_port].mac_addr == -1){
+      //printf("Updating MAC for interface %d\n",free_port );
+      LOCK;
+      table[free_port].mac_addr = f.src_addr;
+      UNLOCK;
+      print_switch_table();
+    }
+    //printf("Message received from interface %d destined for MAC addr = %d\n",free_port,f.dstn_addr );
     //Look into table for dstn_addr..
     int inf = -1;
     for(int i=0;i<table.size();i++){
@@ -53,12 +63,17 @@ void* thread_work(void * arg){
     }
     //If found unicast otherwise broadcast...
     if(inf == -1){
+      //printf("Broadcasting to all...\n" );
       for(int i=0;i<table.size();i++){
         if(i == free_port) continue;
-        if(table[i].connected) write(table[i].sock_fd,(char*)&f,sizeof(frame));
+        if(table[i].connected){
+          //printf("sending frame to %d interface\n",i);
+          write(table[i].sock_fd,(char*)&f,sizeof(frame));
+        }
       }
     }
     else{
+      //printf("sending frame to %d interface\n",inf);
       write(table[inf].sock_fd,(char*)&f,sizeof(frame));
     }
   }
@@ -86,13 +101,13 @@ int main(int argc, char* argv[]){
     if(free_port == -1){
       frame f;
       f.protocol = -1;
-      printf("Got rejected....\n");
+      printf("Got rejected.... no free interface...\n");
       write(newsockfd,(char*)&f,sizeof(frame));
     }
     else{
       frame f;
       f.protocol = 1;
-      printf("Got accepted....\n");
+      printf("Got accepted....at interface = %d\n",free_port);
       write(newsockfd,(char*)&f,sizeof(frame));
       LOCK;
       table[free_port].sock_fd = newsockfd;
