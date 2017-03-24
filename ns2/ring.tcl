@@ -86,6 +86,12 @@ $ns at 1.0 "$ftp start"
 $ns at 4.0 "$ftp stop"
 $ns at 4.5 "$cbr stop"
 
+
+
+$ns rtmodel-at 2.0 down $n2 $n3
+$ns rtmodel-at 2.8 up $n2 $n3
+$ns rtproto DV
+
 #Detach tcp and sink agents (not really necessary)
 $ns at 4.5 "$ns detach-agent $n2 $tcp ; $ns detach-agent $n4 $sink"
 
@@ -98,8 +104,3 @@ puts "CBR interval = [$cbr set interval_]"
 
 #Run the simulation
 $ns run
-
-
-
-
-

@@ -29,10 +29,10 @@ set n3 [$ns node]
 #Create links between the nodes
 $ns duplex-link $n0 $n2 2Mb 10ms DropTail
 $ns duplex-link $n1 $n2 2Mb 10ms DropTail
-$ns duplex-link $n2 $n3 1.7Mb 20ms DropTail
+$ns duplex-link $n2 $n3 1.7Mb 20ms DropTail # SFQ anything would work...
 
 #Set Queue Size of link (n2-n3) to 10
-$ns queue-limit $n2 $n3 100
+$ns queue-limit $n2 $n3 10
 
 #Give node position (for NAM)
 $ns duplex-link-op $n0 $n2 orient right-down
@@ -40,7 +40,7 @@ $ns duplex-link-op $n1 $n2 orient right-up
 $ns duplex-link-op $n2 $n3 orient right
 
 #Monitor the queue for link (n2-n3). (for NAM)
-$ns duplex-link-op $n2 $n3 queuePos 0.25
+$ns duplex-link-op $n2 $n3 queuePos 0.5
 
 #Setup a TCP connection
 set tcp [new Agent/TCP]
@@ -90,8 +90,3 @@ puts "CBR interval = [$cbr set interval_]"
 
 #Run the simulation
 $ns run
-
-
-
-
-
