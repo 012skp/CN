@@ -24,7 +24,7 @@ bool comp(packet p1, packet p2){
 	if(p1.packet_id < p2.packet_id ) return true;
 	else if(p1.packet_id == p2.packet_id) return p1.event < p2.event;
 	else return false;
-}	
+}
 
 int main(int argc, char* argv[]){
 char filename[100];
@@ -33,7 +33,7 @@ FILE *fpp = fopen("output","w");
 FILE *fppp = fopen("output1","w");
 FILE *fpppp = fopen("output2","w");
 for(int i=0;i<n;i++){
-	sprintf(filename,"tracefile%d.tr",i);	
+	sprintf(filename,"tracefile%d.tr",i);
 	FILE *fp = fopen(filename,"r");
 	vector<packet> packet_list;
 	double throughput = 0;
@@ -69,11 +69,11 @@ for(int i=0;i<n;i++){
 		}
 		ii+=j;
 	}
-	
+
 	delay = delay/count;
 	fprintf(fppp,"%lf %lf\n",(i+1)*0.5, delay); //output1
 	fprintf(fpppp,"%lf %lf\n",(i+1)*0.5, (double)drop/(double)(drop+recv)); //output2
-	
+
 }
 fclose(fpp);
 fclose(fppp);
